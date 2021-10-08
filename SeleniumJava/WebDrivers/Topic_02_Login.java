@@ -253,8 +253,6 @@ public class Topic_02_Login {
         }
     }
 
-
-
     public int randomData(){
         Random random = new Random();
         return random.nextInt(999999);
