@@ -153,6 +153,32 @@ public class Topic_04_Web_Element {
         }
     }
 
+    @Test
+    public void TC_03_Is_Selected () {
+        WebElement ageBox = driver.findElement(By.xpath("//input[@id='under_18']"));
+        WebElement javaBox = driver.findElement(By.xpath("//input[@id='java']"));
+        ageBox.click();
+        javaBox.click();
+        if (ageBox.isSelected()) {
+            System.out.println("Element is selected");
+        } else
+            System.out.println("Element is de-selected");
+        if (javaBox.isSelected()) {
+            System.out.println("Element is selected");
+        } else
+            System.out.println("Element is de-selected");
+        javaBox.click();
+        if (javaBox.isSelected()) {
+            System.out.println("Element is selected");
+        } else
+            System.out.println("Element is de-selected");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void elementIsDisplayed(By by){
         if (driver.findElement(by).isDisplayed()){
             System.out.println("abc xyz");
