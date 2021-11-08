@@ -38,7 +38,7 @@ public class Topic_04_Web_Element {
             ageUnder18.click();
             System.out.println("Age under 18 is displayed");
         } else {
-            System.out.println("Age under 18 is not displayed");
+            System.out.println("Age under 18 is not display");
         }
 
         WebElement educationTextbox = driver.findElement(By.xpath("//textarea[@id='edu']"));
@@ -46,14 +46,14 @@ public class Topic_04_Web_Element {
             educationTextbox.click();
             System.out.println("Education is displayed");
         } else {
-            System.out.println("Education is not displayed");
+            System.out.println("Education is not display");
         }
 
         WebElement user5Text = driver.findElement(By.xpath("//h5[text()='Name: User5']"));
         if (user5Text.isDisplayed()) {
             System.out.println("User 5 text is displayed");
         } else {
-            System.out.println("User 5 text is not displayed");
+            System.out.println("User 5 text is not display");
         }
         try {
             Thread.sleep(3000);
@@ -155,28 +155,128 @@ public class Topic_04_Web_Element {
 
     @Test
     public void TC_03_Is_Selected () {
+        //
         WebElement ageBox = driver.findElement(By.xpath("//input[@id='under_18']"));
         WebElement javaBox = driver.findElement(By.xpath("//input[@id='java']"));
+        //
         ageBox.click();
         javaBox.click();
+        //
         if (ageBox.isSelected()) {
             System.out.println("Element is selected");
         } else
             System.out.println("Element is de-selected");
+        //
         if (javaBox.isSelected()) {
             System.out.println("Element is selected");
         } else
             System.out.println("Element is de-selected");
+        //
         javaBox.click();
+        //
         if (javaBox.isSelected()) {
             System.out.println("Element is selected");
         } else
             System.out.println("Element is de-selected");
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void TC_04_Mail_Chimp () {
+        driver.get("https://login.mailchimp.com/signup/");
+        driver.findElement(By.xpath("//input[@id='email']")).sendKeys("johnwick@gmail.com");
+        driver.findElement(By.xpath("//input[@name='username']")).sendKeys("Lucifer");
+        WebElement passBox = driver.findElement(By.xpath("//input[@name='password']"));
+
+        // Check 5 dòng xem có enable hay k
+        WebElement normalText = driver.findElement(By.xpath("//li[@class='lowercase-char']"));
+        if (normalText.isEnabled()) {
+            System.out.println("Element is enabled");
+        } else
+            System.out.println("Element is disabled");
+
+        WebElement specialText = driver.findElement(By.xpath("//li[@class='special-char']"));
+        if (specialText.isEnabled()) {
+            System.out.println("Element is enabled");
+        } else
+            System.out.println("Element is disabled");
+
+        WebElement upperText = driver.findElement(By.xpath("//li[@class='uppercase-char']"));
+        if (upperText.isEnabled()) {
+            System.out.println("Element is enabled");
+        } else
+            System.out.println("Element is disabled");
+
+        WebElement eightChar = driver.findElement(By.xpath("//li[@class='8-char']"));
+        if (eightChar.isEnabled()) {
+            System.out.println("Element is enabled");
+        } else
+            System.out.println("Element is disabled");
+
+        WebElement oneNumber = driver.findElement(By.xpath("//li[@class='number-char']"));
+        if (oneNumber.isEnabled()) {
+            System.out.println("Element is enabled");
+        } else
+            System.out.println("Element is disabled");
+
+        // Nhập số => Bắt One number đang ở trạng thái disable => Verify xem đã disable chưa => Bắt Sign Up Button => Verify Sign up đã disable chưa
+        passBox.sendKeys("1");
+        WebElement numberDisabled = driver.findElement(By.xpath("//li[@class='number-char completed' and text()='One number']"));
+        Assert.assertTrue(numberDisabled.isDisplayed());
+        WebElement signUpButton = driver.findElement(By.xpath("//button[@id='create-account']"));
+        Assert.assertFalse(signUpButton.isEnabled());
+
+        // Nhập chữ thường => Làm tương tự bên trên
+        passBox.clear();
+        passBox.sendKeys("h");
+        WebElement lowerCase = driver.findElement(By.xpath("//li[@class='lowercase-char completed' and text()='One lowercase character']"));
+        Assert.assertTrue(lowerCase.isDisplayed());
+        Assert.assertFalse(signUpButton.isEnabled());
+
+        // Nhập chữ hoa => Làm tương tự bên trên
+        passBox.clear();
+        passBox.sendKeys("T");
+        WebElement upperCase = driver.findElement(By.xpath("//li[@class='uppercase-char completed']"));
+        Assert.assertTrue(upperCase.isDisplayed());
+        Assert.assertFalse(signUpButton.isEnabled());
+
+        // Nhập ký tự đặc biệt => Làm tương tự bên trên
+        passBox.clear();
+        passBox.sendKeys("@");
+        WebElement specialChar = driver.findElement(By.xpath("//li[@class='special-char completed']"));
+        Assert.assertTrue(specialChar.isDisplayed());
+        Assert.assertFalse(signUpButton.isEnabled());
+
+        // Nhap hon 8 ky tu => Làm tương tự bên trên
+        passBox.clear();
+        passBox.sendKeys("luon3101");
+        WebElement eightMin = driver.findElement(By.xpath("//li[@class='8-char completed']"));
+        Assert.assertTrue(eightMin.isDisplayed());
+        Assert.assertFalse(signUpButton.isEnabled());
+        try {
+            Thread.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Check checkbox after clicked
+        WebElement checkBox = driver.findElement(By.xpath("//input[@name='marketing_newsletter']"));
+        checkBox.click();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertTrue(driver.findElement(By.xpath("//input[@name='marketing_newsletter']")).isSelected());
+
+
+
     }
 
     public void elementIsDisplayed(By by){
