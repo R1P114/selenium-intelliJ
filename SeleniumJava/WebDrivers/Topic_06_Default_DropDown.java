@@ -1,6 +1,7 @@
 package WebDrivers;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -61,6 +62,63 @@ public class Topic_06_Default_DropDown {
         for (WebElement store:storeList){
             System.out.println(store.getText());
         }
+    }
+
+    @Test
+    public void TC_02_Dropdown_II () {
+        driver.get("https://demo.nopcommerce.com/register");
+        driver.findElement(By.xpath("//a[@class='ico-register']")).click();
+
+        // Fill form to register
+        driver.findElement(By.xpath("//input[@value='M']")).click();
+        driver.findElement(By.xpath("//input[@id='FirstName']")).sendKeys("Lucifer");
+        driver.findElement(By.xpath("//input[@id='LastName']")).sendKeys("Morningstar");
+
+        // Check select item
+        select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthDay']")));
+        select.selectByVisibleText("6");
+        Assert.assertEquals(select.getOptions().size(),32);
+
+        select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthMonth']")));
+        select.selectByVisibleText("June");
+        Assert.assertEquals(select.getOptions().size(),13);
+
+        select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthYear']")));
+        select.selectByVisibleText("1996");
+        Assert.assertEquals(select.getOptions().size(),112);
+
+        driver.findElement(By.xpath("//input[@name='Email']")).sendKeys("lucifer" + randomData() + "@gmail.com");
+
+        driver.findElement(By.xpath("//input[@name='Password']")).sendKeys("123456");
+        driver.findElement(By.xpath("//input[@name='ConfirmPassword']")).sendKeys("123456");
+
+        driver.findElement(By.xpath("//button[@name='register-button']")).click();
+
+        String successInform = driver.findElement(By.xpath("//div[@class='result']")).getText();
+        Assert.assertEquals(successInform,"Your registration completed");
+
+        driver.findElement(By.xpath("//a[@class='ico-account']")).click();
+
+        // Check result
+        select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthDay']")));
+        Assert.assertEquals(select.getFirstSelectedOption().getText(),"6");
+
+        select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthMonth']")));
+        Assert.assertEquals(select.getFirstSelectedOption().getText(),"June");
+
+        select = new Select(driver.findElement(By.xpath("//select[@name='DateOfBirthYear']")));
+        Assert.assertEquals(select.getFirstSelectedOption().getText(),"1996");
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int randomData () {
+        Random random = new Random();
+        return random.nextInt(999999);
     }
 
     @AfterClass
