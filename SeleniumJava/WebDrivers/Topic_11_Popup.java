@@ -51,6 +51,11 @@ public class Topic_11_Popup {
     @Test
     public void TC_02_Random_Popup_In_DOM () {
         driver.get("https://blog.testproject.io/");
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         By bluePopup = By.xpath("//div[@class='mailch-wrap']");
 
@@ -63,29 +68,35 @@ public class Topic_11_Popup {
         // Next step
         driver.findElement(By.xpath("//section[@id='search-2']//input[@class='search-field']")).sendKeys("Selenium");
         driver.findElement(By.xpath("//section[@id='search-2']//span[@class='glass']")).click();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Verify all title contain keyword Selenium
-        List<WebElement> keywordSeles = driver.findElements(By.xpath("//h3[@class='post-title']"));
-        System.out.println("All Selenium = " + keywordSeles.size());
+        List<WebElement> keywordSeles = driver.findElements(By.xpath("//h3[@class='post-title']/a"));
+        // System.out.println("All Selenium = " + keywordSeles.size());
 
-        for (WebElement keyWord : keywordSeles) {
-            Assert.assertFalse(keyWord.getText().contains("Selenium")); // Cần hỏi lại Long đoạn này vì thầy đang dùng assertTrue
+        for (WebElement keyWord:keywordSeles) {
+            Assert.assertTrue(keyWord.getText().contains("Selenium"));
         }
     }
 
     @Test
     public void TC_03_Random_Popup_Not_In_DOM () {
         driver.get("https://shopee.vn/");
-
-        By shopeePopupBy = By.xpath("//img[@alt='home_popup_banner']");
+        By shopeePopupBy = By.xpath("//div[@class='shopee-popup__container']");
 
         List<WebElement> shopeePopupElement = driver.findElements(shopeePopupBy);
 
-        if (shopeePopupElement.size() > 0)
-            System.out.println("--Popup hiển thị rồi tắt--");
-        driver.findElement(By.xpath("//div[@class='shopee-popup__close-btn']")).click();
+        if (shopeePopupElement.size() > 0 && shopeePopupElement.get(0).isDisplayed() ) {
+            System.out.println("Popup hiển thị r");
+            driver.findElement(By.xpath("//div[@class='shopee-popup__close-btn']")).click();
+            System.out.println("Số popup đang hiển thị = " + shopeePopupElement.size());
+        }
 
-        //Assert.assertEquals(driver.findElements(shopeePopupBy).size(), 0);
+        // Assert.assertEquals(shopeePopupElement.size(), 1);
 
         driver.findElement(By.xpath("//input[@class='shopee-searchbar-input__input']")).sendKeys("iphone 13");
         driver.findElement(By.xpath("//button[@class='btn btn-solid-primary btn--s btn--inline shopee-searchbar__search-button']")).click();

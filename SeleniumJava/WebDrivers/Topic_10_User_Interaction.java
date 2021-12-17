@@ -55,7 +55,6 @@ public class Topic_10_User_Interaction {
         driver.get("https://www.fahasa.com/");
 
         action.moveToElement(driver.findElement(By.xpath("//div[@class='row custom-menu-homepage']//a[@href='https://www.fahasa.com/sach-trong-nuoc.html']"))).perform();
-
     }
 
     @Test

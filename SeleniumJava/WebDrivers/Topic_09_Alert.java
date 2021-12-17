@@ -33,7 +33,7 @@ public class Topic_09_Alert {
 
         driver.findElement(By.xpath("//button[@onclick='jsAlert()']")).click();
 
-        // Wait to alert show up in 15s
+        // First way, wait to alert show up in 15s
         // expliciWait.until(ExpectedConditions.alertIsPresent());
 
         // Switch to an alert
