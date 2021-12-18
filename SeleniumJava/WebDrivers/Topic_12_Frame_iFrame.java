@@ -14,14 +14,14 @@ import org.testng.annotations.Test;
 public class Topic_12_Frame_iFrame {
     WebDriver driver;
     Actions action;
-    JavascriptExecutor jsExcutor;
+    JavascriptExecutor jsExecutor;
 
     @BeforeClass
     public void beforeClass () {
         System.setProperty("webdriver.chrome.driver", "/Users/ios/Downloads/SeleniumDriver/chromedriver");
         driver = new ChromeDriver();
         action = new Actions(driver);
-        jsExcutor = (JavascriptExecutor) driver;
+        jsExecutor = (JavascriptExecutor) driver;
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.manage().window().maximize();
     }
